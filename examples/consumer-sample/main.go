@@ -41,6 +41,7 @@ func main() {
 
 					return nil
 				},
+				nil, // Default error handler (always requeue)
 			),
 		},
 		&loggingWrapper{longear.FixedBackoff{Interval: 1 * time.Second}},

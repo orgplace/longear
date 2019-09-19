@@ -6,20 +6,32 @@ import (
 
 type DeliveryHandler func(*amqp.Delivery) error
 
+type ErrorHandler func(error) bool
+
+var (
+	ErrorHandlerRequeue   = func(err error) bool { return true }
+	ErrorHandlerNoRequeue = func(err error) bool { return false }
+)
+
 type Consumer struct {
 	queueName string
 	tag       string
 	handler   DeliveryHandler
+	onError   ErrorHandler
 
 	channel *amqp.Channel
 	handled chan error
 }
 
-func NewConsumer(queueName string, tag string, handler DeliveryHandler) *Consumer {
+func NewConsumer(queueName string, tag string, handler DeliveryHandler, onError ErrorHandler) *Consumer {
+	if onError == nil {
+		onError = ErrorHandlerRequeue
+	}
 	return &Consumer{
 		queueName: queueName,
 		tag:       tag,
 		handler:   handler,
+		onError:   onError,
 		channel:   nil,
 		handled:   make(chan error, 1),
 	}
@@ -68,7 +80,7 @@ func (c *Consumer) handle(d *amqp.Delivery) (resErr error) {
 	}()
 
 	if handlerErr := c.handler(d); handlerErr != nil {
-		return d.Nack(false, true)
+		return d.Nack(false, c.onError(handlerErr))
 	}
 	return d.Ack(false)
 }
