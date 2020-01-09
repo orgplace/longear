@@ -2,35 +2,49 @@
 
 
 [[projects]]
+  digest = "1:9e9193aa51197513b3abcb108970d831fbcf40ef96aa845c4f03276e1fa316d2"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
+  pruneopts = "UT"
   revision = "c155da19408a8799da419ed3eeb0cb5db0ad5dbc"
   version = "v1.0.5"
 
 [[projects]]
   branch = "master"
+  digest = "1:5ca236e4ecfeb92a57b7a4c7f139023384e7f726640f61b17820473cc82dfb77"
   name = "github.com/streadway/amqp"
   packages = ["."]
-  revision = "e5adc2ada8b8efff032bf61173a233d143e9318e"
+  pruneopts = "UT"
+  revision = "1c71cc93ed716f9a6f4c2ae8955c25f9176d9f19"
 
 [[projects]]
   branch = "master"
+  digest = "1:3f3a05ae0b95893d90b9b3b5afdb79a9b3d96e4e36e099d841ae602e4aca0da8"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
+  pruneopts = "UT"
   revision = "a49355c7e3f8fe157a85be2f77e6e269a0f89602"
 
 [[projects]]
   branch = "master"
+  digest = "1:3364d01296ce7eeca363e3d530ae63a2092d6f8efb85fb3d101e8f6d7de83452"
   name = "golang.org/x/sys"
   packages = [
     "unix",
-    "windows"
+    "windows",
   ]
+  pruneopts = "UT"
   revision = "1b2967e3c290b7c545b3db0deeda16e9be4f98a2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "474b16dabfa27afbd63922082aa520b7e74a550f8cfa497497696f1d961ffeee"
+  input-imports = [
+    "github.com/sirupsen/logrus",
+    "github.com/streadway/amqp",
+    "golang.org/x/crypto/ssh/terminal",
+    "golang.org/x/sys/unix",
+    "golang.org/x/sys/windows",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
